@@ -1,6 +1,6 @@
 # Overview
 
-A document describes existent and proposed solutions to get data from clinicaltrials.gov.
+A document describes a strategy to scrape clinicaltrials.gov.
 
 ## Existent solutions
 
