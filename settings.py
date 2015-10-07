@@ -17,7 +17,7 @@ NEWSPIDER_MODULE = 'spiders'
 
 # Throttle
 
-DOWNLOAD_DELAY = int(os.getenv('DOWNLOAD_DELAY', 1))
+DOWNLOAD_DELAY = float(os.getenv('DOWNLOAD_DELAY', 1))
 AUTOTHROTTLE_ENABLED = True
 
 # Pipelines
