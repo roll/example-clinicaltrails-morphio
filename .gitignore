@@ -1,2 +1,50 @@
-# Ignore output of scraper
+# Coverage
+.coverage
+coverage.xml
+
+# Eclipse
+.settings/
+.project
+.pydevproject
+
+# Idea
+.idea/
+*.ipr
+*.iws
+*.iml
+
+# morph.io
 data.sqlite
+
+# Nodejs
+node_modules/
+npm-debug.log
+
+# Nose
+nosetests.xml
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Project
+tmp/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Sphinx
+docs/_build
+
+# Vagrant
+.vagrant/
+
+# Vim
+.ropeproject/
+
+# Virtualenv
+venv/
+venvs/
+virtualenv/
+virtualenvs/
