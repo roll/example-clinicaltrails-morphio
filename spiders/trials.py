@@ -1,6 +1,7 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from items import Trial
+from services import sources
+from items import trial
 
 
 class Trials(CrawlSpider):
@@ -9,13 +10,10 @@ class Trials(CrawlSpider):
 
     name = 'trials'
     allowed_domains = ['clinicaltrials.gov']
-    start_url_base = 'https://www.clinicaltrials.gov/ct2/results'
-    start_urls = [
-        start_url_base + r'?lup_s=07%2F01%2F2005&lup_e=08%2F01%2F2005',
-    ]
+    start_urls = sources.make_start_urls('https://www.clinicaltrials.gov/ct2/results')
     rules = [
         Rule(LinkExtractor(
-            allow=r'ct2/results?lup_s=.*&lup_e=.*(pg=\d+)?',
+            allow=sources.make_pattern('ct2/results'),
         )),
         Rule(LinkExtractor(
             allow=r'ct2/show/NCT\d+',
@@ -25,7 +23,7 @@ class Trials(CrawlSpider):
 
     def parse_item(self, response):
 
-        item = Trial()
+        item = trial.Trial()
 
         # Id
         path = '/clinical_study/id_info/nct_id/text()'
