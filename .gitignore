@@ -2,6 +2,10 @@
 .coverage
 coverage.xml
 
+# Data
+data.json
+data.sqlite
+
 # Eclipse
 .settings/
 .project
@@ -12,9 +16,6 @@ coverage.xml
 *.ipr
 *.iws
 *.iml
-
-# morph.io
-data.sqlite
 
 # Nodejs
 node_modules/

@@ -7,7 +7,7 @@ class Jsonfile(object):
     # Public
 
     def open_spider(self, spider):
-        filename = 'data/%s.json' % spider.name
+        filename = 'data.json'
         self.file = codecs.open(filename, 'w', encoding='utf-8')
         self.sep = '[\n'
 
