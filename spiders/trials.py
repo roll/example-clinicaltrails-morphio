@@ -32,7 +32,7 @@ class Trials(CrawlSpider):
 
         # link_text
         path = '/clinical_study/required_header/link_text/text()'
-        item['lint_text'] = response.xpath(path).extract_first()
+        item['link_text'] = response.xpath(path).extract_first()
 
         # url
         path = '/clinical_study/required_header/url/text()'

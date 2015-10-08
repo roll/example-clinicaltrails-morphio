@@ -25,5 +25,5 @@ AUTOTHROTTLE_ENABLED = True
 ITEM_PIPELINES = {
     'pipelines.normalize.Normalize': 200,
     'pipelines.database.Database': 250,
-    'pipelines.jsonfile.Jsonfile': 300,
+    # 'pipelines.jsonfile.Jsonfile': 300,
 }
