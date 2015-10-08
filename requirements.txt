@@ -1,5 +1,4 @@
 -e git+http://github.com/openaustralia/scraperwiki-python.git@morph_defaults#egg=scraperwiki
 scrapy
-service_identity #scrapy-openssl fix
 ipython
 nose
