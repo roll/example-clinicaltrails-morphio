@@ -1,7 +1,4 @@
-import os
 import subprocess
 
 
-print(os.getcwd())
-print(os.listdir('.'))
-print(subprocess.call('scrapy', shell=True))
+subprocess.call('scrapy crawl trials', shell=True)
