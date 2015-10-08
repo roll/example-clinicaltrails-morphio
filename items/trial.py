@@ -36,4 +36,7 @@ class Trial(scrapy.Item):
     verification_date = scrapy.Field()
     lastchanged_date = scrapy.Field()
     firstreceived_date = scrapy.Field()
+    responsible_party = scrapy.Field()
     keywords = scrapy.Field()
+    is_fda_regulated = scrapy.Field()
+    has_expanded_access = scrapy.Field()

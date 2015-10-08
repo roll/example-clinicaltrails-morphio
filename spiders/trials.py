@@ -57,16 +57,16 @@ class Trials(CrawlSpider):
         item['official_title'] = res.xpath(path).extract_first()
 
         # sponsors
-        path = '/clinical_study/sponsors'
-        item['sponsors'] = self.__xml2tson(res.xpath(path).extract_first())
+        path = '/clinical_study/sponsors/child::*'
+        item['sponsors'] = self.__listxml2tson(res.xpath(path).extract())
 
         # source
         path = '/clinical_study/source/text()'
         item['source'] = res.xpath(path).extract_first()
 
         # oversight_info
-        path = '/clinical_study/oversight_info/text()'
-        item['oversight_info'] = self.__xml2tson(res.xpath(path).extract_first())
+        path = '/clinical_study/oversight_info/node()'
+        item['oversight_info'] = self.__dictxml2tson(''.join(res.xpath(path).extract()))
 
         # brief_summary
         path = '/clinical_study/brief_summary/textblock/text()'
@@ -106,7 +106,7 @@ class Trials(CrawlSpider):
 
         # primary_outcome
         path = '/clinical_study/primary_outcome/text()'
-        item['primary_outcome'] = self.__xml2tson(res.xpath(path).extract_first())
+        item['primary_outcome'] = self.__dictxml2tson(res.xpath(path).extract_first())
 
         # secondary_outcomes
         path = '/clinical_study/secondary_outcome'
@@ -123,16 +123,20 @@ class Trials(CrawlSpider):
         # TODO: implement
 
         # eligibility
-        # TODO: implement
+        path = '/clinical_study/eligibility/node()'
+        item['eligibility'] = self.__dictxml2tson(''.join(res.xpath(path).extract()))
 
         # overall_official
-        # TODO: implement
+        path = '/clinical_study/overall_official/node()'
+        item['overall_official'] = self.__dictxml2tson(''.join(res.xpath(path).extract()))
 
         # location
-        # TODO: implement
+        path = '/clinical_study/location/node()'
+        item['location'] = self.__dictxml2tson(''.join(res.xpath(path).extract()))
 
         # location_countries
-        # TODO: implement
+        path = '/clinical_study/location_countries/child::*'
+        item['location_countries'] = self.__listxml2tson(res.xpath(path).extract())
 
         # verification_date
         path = '/clinical_study/verification_date/text()'
@@ -146,15 +150,28 @@ class Trials(CrawlSpider):
         path = '/clinical_study/firstreceived_date/text()'
         item['firstreceived_date'] = res.xpath(path).extract_first()
 
+        # responsible_party
+        path = '/clinical_study/responsible_party/node()'
+        item['responsible_party'] = self.__dictxml2tson(''.join(res.xpath(path).extract()))
+
         # keywords
-        # TODO: implement
+        path = '/clinical_study/keyword/text()'
+        item['keywords'] = self.__listxml2tson(res.xpath(path).extract_first())
+
+        # is_fda_regulated
+        path = '/clinical_study/is_fda_regulated/text()'
+        item['is_fda_regulated'] = res.xpath(path).extract_first()
+
+        # has_expanded_access
+        path = '/clinical_study/has_expanded_access/text()'
+        item['has_expanded_access'] = res.xpath(path).extract_first()
 
         return item
 
     # Private
 
     @staticmethod
-    def __xml2tson(xml):
+    def __dictxml2tson(xml):
         try:
             return json.dumps(xmltodict.parse(xml))
         except Exception:
