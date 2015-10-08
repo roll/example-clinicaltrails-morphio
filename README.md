@@ -12,19 +12,19 @@ This is a scraper that runs on [Morph](https://morph.io). To get started [see th
 Environment variables to configure the scraper:
 
 - DATE_FROM
-    
+
   Get trials with last updated mark => this date.
 
 - DATE_TO
- 
+
   Get trials with last updated mark <= this date.
 
 - DOWNLOAD_DELAY
 
   Requests we're making to clinicaltrials.gov interval.
-  
+
 ## Workflow
-  
+
 We need to download around 200 000 pages and we want to be polite to the source webserver:
 
 - 1s delay -> 60 hours
@@ -39,6 +39,7 @@ So we can scrape manually by years then pull updates for the last year automatic
 - etc
 
 Proposed settings for the scraping some year:
+
 ```
 DATE_FROM='2010-01-01'
 DATE_TO='2010-12-31'
@@ -46,6 +47,7 @@ DOWNLOAD_DELAY='0.25'
 ```
 
 Proposed settings for the database updating:
+
 ```
 DATE_FROM='2015-10-01'
 DATE_TO='2015-12-31'
