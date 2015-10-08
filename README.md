@@ -10,6 +10,7 @@ This is a scraper that runs on [Morph](https://morph.io). To get started [see th
 ## Configuration
 
 Environment variables to configure the scraper:
+
 - DATE_FROM
 - DATE_TO
 - DOWNLOAD_DELAY
