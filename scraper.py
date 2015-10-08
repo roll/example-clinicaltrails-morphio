@@ -1,4 +1,5 @@
-import subprocess
+import os
 
 
-subprocess.call('venv/bin/scrapy crawl trials', shell=True)
+print(os.getcwd())
+print(os.listdir())
