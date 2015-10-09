@@ -6,8 +6,8 @@ PLATFORM = os.getenv('PLATFORM', 'DEVELOPMENT')
 
 # Userdef
 
-DATE_FROM = os.getenv('DATE_FROM', '2005-07-01')
-DATE_TO = os.getenv('DATE_TO', '2005-08-01')
+DATE_FROM = os.getenv('DATE_FROM', '2011-05-31')
+DATE_TO = os.getenv('DATE_TO', '2011-05-31')
 
 # General
 
