@@ -6,8 +6,8 @@ PLATFORM = os.getenv('PLATFORM', 'DEVELOPMENT')
 
 # Userdef
 
-DATE_FROM = os.getenv('DATE_FROM', '2005-01-01')
-DATE_TO = os.getenv('DATE_TO', '2006-01-01')
+DATE_FROM = os.getenv('DATE_FROM', '2011-05-31')
+DATE_TO = os.getenv('DATE_TO', '2011-05-31')
 
 # General
 
@@ -25,5 +25,5 @@ AUTOTHROTTLE_ENABLED = True
 ITEM_PIPELINES = {
     'pipelines.normalize.Normalize': 200,
     'pipelines.database.Database': 250,
-    'pipelines.jsonfile.Jsonfile': 300,
+    # 'pipelines.jsonfile.Jsonfile': 300,
 }
