@@ -75,7 +75,6 @@ class Trials(CrawlSpider):
 
         item['oversight_info'] = gdict('oversight_info')
         item['eligibility'] = gdict('eligibility')
-        item['overall_official'] = gdict('overall_official')
         item['overall_contact'] = gdict('overall_contact')
         item['overall_contact_backup'] = gdict('overall_contact_backup')
         item['responsible_party'] = gdict('responsible_party')
@@ -94,12 +93,13 @@ class Trials(CrawlSpider):
         item['conditions'] = glist('condition')
         item['arm_groups'] = glist('arm_group')
         item['interventions'] = glist('intervention')
+        item['overall_officials'] = glist('overall_official')
         item['locations'] = glist('location')
         item['location_countries'] = glist('location_countries/child::*')
         item['removed_countries'] = glist('removed_countries/child::*')
-        item['link'] = glist('link')
-        item['reference'] = glist('reference')
-        item['results_reference'] = glist('results_reference')
+        item['links'] = glist('link')
+        item['references'] = glist('reference')
+        item['results_references'] = glist('results_reference')
         item['keywords'] = glist('keyword')
 
         return item
