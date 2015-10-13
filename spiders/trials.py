@@ -38,7 +38,6 @@ class Trials(CrawlSpider):
         glist = partial(self.__get_list, res)
 
         # Plain value fields
-
         item['download_date'] = gtext('required_header/download_date')
         item['link_text'] = gtext('required_header/link_text')
         item['url'] = gtext('required_header/url')
@@ -61,10 +60,10 @@ class Trials(CrawlSpider):
         item['study_type'] = gtext('study_type')
         item['study_design'] = gtext('study_design')
         item['target_duration'] = gtext('target_duration')
-        item['number_of_arms'] = gtext('number_of_arms')
-        item['number_of_groups'] = gtext('number_of_groups')
-        item['enrollment_actual'] = gtext('enrollment[@type="Actual"]')
-        item['enrollment_anticipated'] = gtext('enrollment[@type="Anticipated"]')
+        item['number_of_arms'] = gtext('number_of_arms', process=int)
+        item['number_of_groups'] = gtext('number_of_groups', process=int)
+        item['enrollment_actual'] = gtext('enrollment[@type="Actual"]', process=int)
+        item['enrollment_anticipated'] = gtext('enrollment[@type="Anticipated"]', process=int)
         item['biospec_retention'] = gtext('biospec_retention')
         item['biospec_descr'] = gtext('biospec_descr')
         item['verification_date'] = gtext('verification_date')
@@ -75,7 +74,6 @@ class Trials(CrawlSpider):
         item['has_expanded_access'] = gtext('has_expanded_access')
 
         # Dict value fields
-
         item['oversight_info'] = gdict('oversight_info')
         item['eligibility'] = gdict('eligibility')
         item['overall_contact'] = gdict('overall_contact')
@@ -86,7 +84,6 @@ class Trials(CrawlSpider):
         item['intervention_browse'] = gdict('intervention_browse')
 
         # List value fields
-
         item['secondary_ids'] = glist('id_info/secondary_id')
         item['nct_aliases'] = glist('id_info/nct_alias')
         item['sponsors'] = glist('sponsors/child::*')
@@ -110,31 +107,36 @@ class Trials(CrawlSpider):
     # Private
 
     @staticmethod
-    def __get_text(res, path):
-        base = ''
-        path = '%s/text()' % path
-        return res.xpath(path).extract_first() or base
+    def __get_text(res, path, process=None):
+        value = None
+        try:
+            nodes = res.xpath(path)
+            if nodes:
+                value = nodes.xpath('text()').extract_first()
+                if process:
+                    value = process(value)
+        except Exception as exception:
+            logger.debug(path + ': ' + str(exception))
+        return value
 
     @staticmethod
     def __get_dict(res, path):
-        base = {}
-        path = '%s' % path
-        node = res.xpath(path).extract_first()
+        value = None
         try:
-            value = xmltodict.parse(node) or base
+            nodes = res.xpath(path)
+            if nodes:
+                value = json.dumps(xmltodict.parse(nodes.extract_first()))
         except Exception as exception:
             logger.debug(path + ': ' + str(exception))
-            value = base
-        return json.dumps(value)
+        return value
 
     @staticmethod
     def __get_list(res, path):
-        base = []
-        path = '%s' % path
-        nodes = res.xpath(path).extract()
+        value = None
         try:
-            value = map(xmltodict.parse, nodes) or base
+            nodes = res.xpath(path)
+            if nodes:
+                value = json.dumps(map(xmltodict.parse, nodes.extract()))
         except Exception as exception:
             logger.debug(path + ': ' + str(exception))
-            value = base
-        return json.dumps(value)
+        return value
