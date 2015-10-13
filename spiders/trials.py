@@ -74,14 +74,14 @@ class Trials(CrawlSpider):
         item['has_expanded_access'] = gtext('has_expanded_access')
 
         # Dict value fields
-        item['oversight_info'] = gdict('oversight_info')
-        item['eligibility'] = gdict('eligibility')
-        item['overall_contact'] = gdict('overall_contact')
-        item['overall_contact_backup'] = gdict('overall_contact_backup')
-        item['responsible_party'] = gdict('responsible_party')
-        item['clinical_results'] = gdict('clinical_results')
-        item['condition_browse'] = gdict('condition_browse')
-        item['intervention_browse'] = gdict('intervention_browse')
+        item['oversight_info'] = gdict('oversight_info', expand='oversight_info')
+        item['eligibility'] = gdict('eligibility', expand='eligibility')
+        item['overall_contact'] = gdict('overall_contact', expand='overall_contact')
+        item['overall_contact_backup'] = gdict('overall_contact_backup', expand='overall_contact_backup')
+        item['responsible_party'] = gdict('responsible_party', expand='responsible_party')
+        item['clinical_results'] = gdict('clinical_results', expand='clinical_results')
+        item['condition_browse'] = gdict('condition_browse', expand='condition_browse')
+        item['intervention_browse'] = gdict('intervention_browse', expand='intervention_browse')
 
         # List value fields
         item['secondary_ids'] = glist('id_info/secondary_id')
@@ -120,12 +120,16 @@ class Trials(CrawlSpider):
         return value
 
     @staticmethod
-    def __get_dict(res, path):
+    def __get_dict(res, path, expand=None):
         value = None
         try:
             nodes = res.xpath(path)
             if nodes:
-                value = json.dumps(xmltodict.parse(nodes.extract_first()))
+                text = nodes.extract_first()
+                hash = xmltodict.parse(text)
+                if expand:
+                    hash = hash[expand]
+                value = json.dumps(hash)
         except Exception as exception:
             logger.debug(path + ': ' + str(exception))
         return value
