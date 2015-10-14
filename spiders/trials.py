@@ -27,6 +27,7 @@ class Trials(CrawlSpider):
         ), callback='parse_item'),
     ]
 
+    # TODO: generalize expand?
     def parse_item(self, res):
 
         # Create item
@@ -84,23 +85,23 @@ class Trials(CrawlSpider):
         item['intervention_browse'] = gdict('intervention_browse', expand='intervention_browse')
 
         # List value fields
-        item['secondary_ids'] = glist('id_info/secondary_id')
-        item['nct_aliases'] = glist('id_info/nct_alias')
+        item['secondary_ids'] = glist('id_info/secondary_id', expand='secondary_id')
+        item['nct_aliases'] = glist('id_info/nct_alias', expand='nct_alias')
         item['sponsors'] = glist('sponsors/child::*')
-        item['primary_outcomes'] = glist('primary_outcome')
-        item['secondary_outcomes'] = glist('secondary_outcome')
-        item['other_outcomes'] = glist('other_outcome')
-        item['conditions'] = glist('condition')
-        item['arm_groups'] = glist('arm_group')
-        item['interventions'] = glist('intervention')
-        item['overall_officials'] = glist('overall_official')
-        item['locations'] = glist('location')
-        item['location_countries'] = glist('location_countries/child::*')
-        item['removed_countries'] = glist('removed_countries/child::*')
-        item['links'] = glist('link')
-        item['references'] = glist('reference')
-        item['results_references'] = glist('results_reference')
-        item['keywords'] = glist('keyword')
+        item['primary_outcomes'] = glist('primary_outcome', expand='primary_outcome')
+        item['secondary_outcomes'] = glist('secondary_outcome', expand='secondary_outcome')
+        item['other_outcomes'] = glist('other_outcome', expand='other_outcome')
+        item['conditions'] = glist('condition', expand='condition')
+        item['arm_groups'] = glist('arm_group', expand='arm_group')
+        item['interventions'] = glist('intervention', expand='intervention')
+        item['overall_officials'] = glist('overall_official', expand='overall_official')
+        item['locations'] = glist('location', expand='location')
+        item['location_countries'] = glist('location_countries/child::*', expand='country')
+        item['removed_countries'] = glist('removed_countries/child::*', expand='country')
+        item['links'] = glist('link', expand='link')
+        item['references'] = glist('reference', expand='reference')
+        item['results_references'] = glist('results_reference', expand='results_reference')
+        item['keywords'] = glist('keyword', expand='keyword')
 
         return item
 
@@ -135,12 +136,19 @@ class Trials(CrawlSpider):
         return value
 
     @staticmethod
-    def __get_list(res, path):
+    def __get_list(res, path, expand=None):
         value = None
         try:
             nodes = res.xpath(path)
             if nodes:
-                value = json.dumps(map(xmltodict.parse, nodes.extract()))
+                hashs = []
+                texts = nodes.extract()
+                for text in texts:
+                    hash = xmltodict.parse(text)
+                    if expand:
+                        hash = hash[expand]
+                    hashs.append(hash)
+                value = json.dumps(hashs)
         except Exception as exception:
             logger.debug(path + ': ' + str(exception))
         return value
