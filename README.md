@@ -53,3 +53,11 @@ DATE_FROM='2015-10-01'
 DATE_TO='2015-12-31'
 DOWNLOAD_DELAY='0.5'
 ```
+
+## Legal notes
+
+Source of all data scraped by this scraper: [clinicaltrials.gov](clinicaltrials.gov).
+
+> ClinicalTrials.gov data are available to all requesters, both within and outside the United States, at no charge.
+
+[Terms and conditions](https://www.clinicaltrials.gov/ct2/about-site/terms-conditions)
